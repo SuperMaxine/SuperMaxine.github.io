@@ -77,11 +77,110 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="使用win10愉快地建立GitHub-Pages-Hexo个人博客并实现多端编辑和图片托管"><a href="#使用win10愉快地建立GitHub-Pages-Hexo个人博客并实现多端编辑和图片托管" class="headerlink" title="使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管"></a>使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管</h1><h2 id="建立博客"><a href="#建立博客" class="headerlink" title="建立博客"></a>建立博客</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h2 id="多端编辑"><a href="#多端编辑" class="headerlink" title="多端编辑"></a>多端编辑</h2><h2 id="图片托管"><a href="#图片托管" class="headerlink" title="图片托管"></a>图片托管</h2>
+        <p>title: 使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管<br>date: 2019-07-23 09:13:29<br>tags: blog</p>
+<h2 id="建立博客"><a href="#建立博客" class="headerlink" title="建立博客"></a>建立博客</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><p>安装Node.js</p>
+<p><a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">Node.js官网</a></p>
+</li>
+<li><p>安装Git</p>
+<p><a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">Git官网</a></p>
+</li>
+<li><p>安装Hexo</p>
+<p>新建一个用来储存hexo源码的地方</p>
+<p>打开右键菜单，发现Git安装成功后多了两个选项</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-cab10cdb1b92f40c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/276/format/webp" alt="Git右键选项"></p>
+<p>选Git Bash Here，在展开的bash命令窗口中依次输入以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g <span class="comment">#安装创建hexo工程文件模块</span></span><br><span class="line">$ hexo init blog <span class="comment">#创建一个新的文件夹blog并初始化</span></span><br><span class="line">$ <span class="built_in">cd</span> blog <span class="comment">#进入blog文件夹</span></span><br><span class="line">$ npm install <span class="comment">#依据初始化文件开始安装hexo模块</span></span><br><span class="line">$ hexo server <span class="comment">#可运行可不运行，只是启动本地服务为了验证是否安装成功</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><a href="https://one-more-tech.gitlab.io/Hexo-%E4%B8%8E-Hexo-cli-%E7%9A%84%E5%85%B3%E7%B3%BB%E3%80%81%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/index/" target="_blank" rel="noopener">hexo-cli与hexo模块的区别</a></p>
+</blockquote>
+<p>如果安装过程中没有出现问题，命令行会返回如下文字并挂起</p>
+</li>
+</ol>
+<p>   <img src="https://upload-images.jianshu.io/upload_images/1869686-eafd678f09349680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/575/format/webp" alt="img"></p>
+<p>   此时目录情况如下</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules  npm 文件缓存目录</span><br><span class="line">scaffolds     文夹件下存放的是文章、页面模版</span><br><span class="line">scource       文夹件下存放的是我们的资源文件</span><br><span class="line">themes        文件下存放的是我们的主题文件</span><br><span class="line">.gitignore    git 忽略文件，设置提交文件时，哪些文件不提交</span><br><span class="line">_config.yml   站点配置文件</span><br><span class="line">package.json  站点版本，站点依赖文件</span><br><span class="line">yarn.lock     yarn.lock 文件由 Yarn 自动创建，并且完全通过 Yarn 进行操作。</span><br></pre></td></tr></table></figure>
+
+<p>   在浏览器输入 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 就可以访问刚刚创建的博客了，按Ctrl+C可以停止本地服务的运行。如下图 :</p>
+<p>   <img src="https://upload-images.jianshu.io/upload_images/1869686-c440aafcbba17e8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>   如果这是在vps上搭建的，此时已经可以让其他人通过你的ip或域名访问了。但是<del>为了剩下vps钱</del>，<del>为了GitHub上多点绿</del>，为了稳定可靠的托管，我们选择将博客发布到GitHub Pages上。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ol>
+<li><p>SSH key</p>
+<p>在命令行中输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"你的邮箱"</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-t type缩写，即指定密钥的类型，这里选择RSA加密算法</p>
+<p>-b bit缩写，指定密钥长度。对于RSA密钥，最小要求768位，默认是2048位。此处省略</p>
+<p>-C comment缩写，表示要提供一个新注释，用于识别这个密钥，所以“”里面不一定非要填邮箱，可以是任何内容，邮箱仅仅是识别用的key</p>
+</blockquote>
+<p>接着会让你输入文件名，直接回车跳过则会默认以默认文件名“id_rsa”生成密钥文件</p>
+<p>后面让你输入两次密码，此处密码是之后每次提交hexo静态文件至GitHub时需要输入的博文，为了方便此处跳过。</p>
+<p>创建成功后，会生成以下三个文件（可能没有known_hosts，不过并没有关系）</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-ba3d25d99ebf0571.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/382/format/webp" alt="SSHKey"></p>
+</li>
+<li><p>Github配置</p>
+<p>创建一个新的仓库</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-22848fdc4dd57b97.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="Creat new repository"></p>
+<p>创建成功后，会进入仓库页面，点开“Clone or download”，会发现两个用于同步的链接，一个是 Https，一个是 SSH 。Https 每次提交都需要输入用户名和密码，SSH 只要添加了 SSH key 值，（且之前没有设置密码），以后提交不需要输入用户名和密码。</p>
+<p><img src="C:%5CUsers%5C25865%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1563847873718.png" alt="sshlink"></p>
+<p>用Notepad++或者其他随便什么文本编辑器打开刚才创建的“id_rsa.pub”</p>
+<blockquote>
+<p>文件目录在”C:\Users\你的用户名\.ssh“</p>
+</blockquote>
+<p>拷贝其中内容</p>
+<blockquote>
+<p>或者可以通过如下命令拷贝 SSH key 的内容 ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;$ clip &lt; ~/.ssh/id_rsa.pub</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>现在已拷贝了 SSH key 的内容，那么 GitHub 如何添加 SSH key 呢 ？点击右上角头像，然后点击Settings 。如图 ：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-32beff10b531ffc7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>然后点击 New SSH key，如图 ：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-0a647ad9e0e23837.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/917/format/webp" alt="img"></p>
+<p>把之前拷贝的内容粘贴到 key 里面，然后点击 Add SSH key，如图 ：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-bbdc00531225023d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>怎么去验证是否已经添加成功了呢 ？通过如下命令 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>验证成功，如图 ：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-33c2ff53006d63c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/560/format/webp" alt="img"></p>
+</li>
+<li><p>Hexo配置</p>
+<p>修改站点配置文件(_config.yml)</p>
+<blockquote>
+<p>注 ：<br> 对应的目录 ：blog/_config.yml/，blog 为 hexo init 初始化文件夹的名称，替换成你自己初始化文件夹的名称。</p>
+</blockquote>
+<p>修改 depoly ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git </span><br><span class="line">  repo: git@github.com:username.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p><img src="https:////upload-images.jianshu.io/upload_images/1869686-3ca1302e7e76952c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<blockquote>
+<p>注 ：如上图所示，找到 GitHub 上对应的远程仓库地址，点击右侧复制按钮，把 “<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:<a href="http://username.github.io.git" target="_blank" rel="noopener">username.github.io.git</a>“ 替换成刚刚复制的远程仓库地址。</p>
+</blockquote>
+<p>修改 site 相关信息 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">title: xx</span><br><span class="line">subtitle:     </span><br><span class="line">description:</span><br><span class="line">keywords:</span><br><span class="line">author: xx</span><br><span class="line">language: zh-Hans</span><br><span class="line">timezone:</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注 ：网站名称（title），作者 (author)，语言 (language)</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>这样其实就可以投入使用了</p>
+<p>生成静态文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+
+<p>提交到远程仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
+<p>等待个几分钟（GitHub Pages同步有延迟），你就可以在 github 上看见我们提交的静态文件了，也可以通过 <a href="http://username.github.io/" target="_blank" rel="noopener">http://username.github.io</a> 访问我们的博客了，username 改成你的github 用户名。</p>
+<h2 id="多端编辑"><a href="#多端编辑" class="headerlink" title="多端编辑"></a>多端编辑</h2><p>TODO</p>
+<h2 id="图片托管"><a href="#图片托管" class="headerlink" title="图片托管"></a>图片托管</h2><p>TODO</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/23/使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管/" data-id="cjyf54fq20001ekv3s367di9n" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/23/使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管/" data-id="cjyf75cnx000310v3ob75pzce" class="article-share-link">Share</a>
       
       
     </footer>
@@ -118,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/23/阶段性记录/" data-id="cjyf54fqc0003ekv3cixgsoke" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/23/阶段性记录/" data-id="cjyf75cnz000410v34sxzhtrd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
@@ -157,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/23/test/" data-id="cjyf54fqe0004ekv31mo9u7fj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/23/test/" data-id="cjyf75cnr000110v3hfwxjkss" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
@@ -208,7 +307,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/22/hello-world/" data-id="cjyf54fpp0000ekv3t7rzdmlp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/22/hello-world/" data-id="cjyf75cnk000010v3av8ozbpq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
