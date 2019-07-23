@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1869686-bbdc00531225023d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1869686-33c2ff53006d63c5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/560/format/webp">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1869686-3ca1302e7e76952c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
-<meta property="og:updated_time" content="2019-07-23T02:47:38.645Z">
+<meta property="og:updated_time" content="2019-07-23T03:12:44.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管">
 <meta name="twitter:description" content="建立博客安装 安装Node.js Node.js官网  安装Git Git官网  安装Hexo">
@@ -121,13 +121,13 @@
 <p>如果安装过程中没有出现问题，命令行会返回如下文字并挂起</p>
 <p><img src="https://upload-images.jianshu.io/upload_images/1869686-eafd678f09349680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/575/format/webp" alt="img"></p>
 <p>此时目录情况如下</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules  npm 文件缓存目录</span><br><span class="line">scaffolds     文夹件下存放的是文章、页面模版</span><br><span class="line">scource       文夹件下存放的是我们的资源文件</span><br><span class="line">themes        文件下存放的是我们的主题文件</span><br><span class="line">.gitignore    git 忽略文件，设置提交文件时，哪些文件不提交</span><br><span class="line">_config.yml   站点配置文件</span><br><span class="line">package.json  站点版本，站点依赖文件</span><br><span class="line">yarn.lock     yarn.lock 文件由 Yarn 自动创建，并且完全通过 Yarn 进行操作。</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器输入 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 就可以访问刚刚创建的博客了，按Ctrl+C可以停止本地服务的运行。如下图 :</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1869686-c440aafcbba17e8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>如果这是在vps上搭建的，此时已经可以让其他人通过你的ip或域名访问了。但是<del>为了剩下vps钱</del>，<del>为了GitHub上多点绿</del>，<del>懒得配置域名</del>，为了稳定可靠的托管，我们选择将博客发布到GitHub Pages上。</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">node_modules  npm 文件缓存目录</span><br><span class="line">scaffolds     文夹件下存放的是文章、页面模版</span><br><span class="line">scource       文夹件下存放的是我们的资源文件</span><br><span class="line">themes        文件下存放的是我们的主题文件</span><br><span class="line">.gitignore    git 忽略文件，设置提交文件时，哪些文件不提交</span><br><span class="line">_config.yml   站点配置文件</span><br><span class="line">package.json  站点版本，站点依赖文件</span><br><span class="line">yarn.lock     yarn.lock 文件由 Yarn 自动创建，并且完全通过 Yarn 进行操作。</span><br></pre></td></tr></table></figure>
-
-<p>   在浏览器输入 <a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 就可以访问刚刚创建的博客了，按Ctrl+C可以停止本地服务的运行。如下图 :</p>
-<p>   <img src="https://upload-images.jianshu.io/upload_images/1869686-c440aafcbba17e8d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
-<p>   如果这是在vps上搭建的，此时已经可以让其他人通过你的ip或域名访问了。但是<del>为了剩下vps钱</del>，<del>为了GitHub上多点绿</del>，为了稳定可靠的托管，我们选择将博客发布到GitHub Pages上。</p>
 <h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ol>
 <li><p>SSH key</p>
 <p>在命令行中输入</p>
@@ -189,21 +189,39 @@
 </blockquote>
 </li>
 </ol>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>这样其实就可以投入使用了</p>
-<p>生成静态文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ol>
+<li><p>普通使用</p>
+<ul>
+<li><p>更新博客</p>
+<p>  这样其实就可以投入使用了</p>
+<p>  生成静态文件</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br></pre></td></tr></table></figure>
 
-<p>提交到远程仓库</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<p>  提交到远程仓库</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
 
-<p>等待个几分钟（GitHub Pages同步有延迟），你就可以在 github 上看见我们提交的静态文件了，也可以通过 <a href="http://username.github.io/" target="_blank" rel="noopener">http://username.github.io</a> 访问我们的博客了，username 改成你的github 用户名。</p>
+<p>  等待个几分钟（GitHub Pages同步有延迟），你就可以在 github 上看见我们提交的静态文件了，也可以通过 <a href="http://username.github.io/" target="_blank" rel="noopener">http://username.github.io</a> 访问我们的博客了，username 改成你的github 用户名。</p>
+</li>
+<li><p>发布新博文</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"博文标题"</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>会在source/_post文件夹中生成一篇新的的MarkDown文档，当你编辑好后，重复更新博客的步骤就可以同步到GitHub Pages了。</code></pre><ol start="2">
+<li><p>修改主题</p>
+<p>TODO</p>
+</li>
+</ol>
 <h2 id="多端编辑"><a href="#多端编辑" class="headerlink" title="多端编辑"></a>多端编辑</h2><p>TODO</p>
 <h2 id="图片托管"><a href="#图片托管" class="headerlink" title="图片托管"></a>图片托管</h2><p>TODO</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/23/使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管/" data-id="cjyf7yg0y0004tov3dmea7atw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/23/使用win10愉快地建立GitHub Pages+Hexo个人博客并实现多端编辑和图片托管/" data-id="cjyf8ul89000488v3v2j3b6eq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/">blog</a></li></ul>
