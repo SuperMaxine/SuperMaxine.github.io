@@ -89,74 +89,18 @@
       
         <p>最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字</p>
 <p>而今天要处理一堆文件，把其中的内容挑到execl中去</p>
-<p><img src="/2019/12/15/python处理word文件/4.jpg" alt></p>
-<p>python处理docx比较方便，而所给的文件除了一个之外都是doc，所以首先把所有doc文件另存为docx文件。代码如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> win32api</span><br><span class="line"><span class="keyword">import</span> win32com</span><br><span class="line"><span class="keyword">from</span> win32com.client <span class="keyword">import</span> Dispatch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">listdir</span><span class="params">(path, list_name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(path):</span><br><span class="line">        file_path = os.path.join(path, file)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(file_path):</span><br><span class="line">            listdir(file_path, list_name)</span><br><span class="line">        <span class="keyword">elif</span> os.path.splitext(file_path)[<span class="number">1</span>] == <span class="string">'.doc'</span>:</span><br><span class="line">            list_name.append(file_path)</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">doc2docx</span><span class="params">(path)</span>:</span></span><br><span class="line">    w = win32com.client.Dispatch(<span class="string">'Word.Application'</span>)</span><br><span class="line">    w.Visible = <span class="number">0</span></span><br><span class="line">    w.DisplayAlerts = <span class="number">0</span></span><br><span class="line">    doc = w.Documents.Open(path)</span><br><span class="line">    newpath = os.path.splitext(path)[<span class="number">0</span>] + <span class="string">'.docx'</span></span><br><span class="line">    doc.SaveAs(newpath, <span class="number">12</span>, <span class="literal">False</span>, <span class="string">""</span>, <span class="literal">True</span>, <span class="string">""</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>)</span><br><span class="line">    doc.Close()</span><br><span class="line">    w.Quit()</span><br><span class="line">    os.remove(path)</span><br><span class="line">    <span class="keyword">return</span> newpath</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xt = []</span><br><span class="line">listdir(<span class="string">r'C:\Users\25865\test'</span>, xt)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> xt:</span><br><span class="line">    doc2docx(name)</span><br><span class="line">    print(name)</span><br><span class="line">    </span><br><span class="line">os.system(<span class="string">"pause"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>调试过程效果如图所示</p>
-<p><img src="/2019/12/15/python处理word文件/1.jpg" alt></p>
-<p>下一步将内容提取出来，存为csv文件</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">listdirdocx</span><span class="params">(path, list_name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(path):</span><br><span class="line">        file_path = os.path.join(path, file)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(file_path):</span><br><span class="line">            listdir(file_path, list_name)</span><br><span class="line">        <span class="keyword">elif</span> os.path.splitext(file_path)[<span class="number">1</span>] == <span class="string">'.docx'</span>:</span><br><span class="line">            list_name.append(file_path)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pickinformation</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="comment">#fn = r'E:\abc\test.docx'</span></span><br><span class="line">    fn = path</span><br><span class="line">    doc = docx.Document(fn)</span><br><span class="line"></span><br><span class="line">    <span class="comment">#for paragraph in doc.paragraphs:</span></span><br><span class="line">    <span class="comment">#        print(paragraph.text)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> table <span class="keyword">in</span> doc.tables:</span><br><span class="line">        i = <span class="number">0</span></span><br><span class="line">        j = <span class="number">0</span></span><br><span class="line">        temp = [str(num),<span class="string">'信息学部'</span>]</span><br><span class="line">        <span class="keyword">for</span> row <span class="keyword">in</span> table.rows:</span><br><span class="line">            i=i+<span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> cell <span class="keyword">in</span> row.cells:</span><br><span class="line">                j=j+<span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> i == <span class="number">1</span> <span class="keyword">and</span> j == <span class="number">4</span>:</span><br><span class="line">                    <span class="comment">#print(str(i) + "," + str(j))</span></span><br><span class="line">                    print(cell.text)</span><br><span class="line">                    temp.append(cell.text)</span><br><span class="line">                <span class="keyword">elif</span> i == <span class="number">5</span> <span class="keyword">and</span> j == <span class="number">20</span>:</span><br><span class="line">                    print(cell.text)</span><br><span class="line">                    temp.append(cell.text)</span><br><span class="line">        append_csv(<span class="string">r'C:\Users\25865\example.csv'</span>,[temp])</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_csv</span><span class="params">(path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> open(path, <span class="string">"w+"</span>, newline=<span class="string">''</span>) <span class="keyword">as</span> file:</span><br><span class="line">         csv_file = csv.writer(file)</span><br><span class="line">         head = [<span class="string">"序号"</span>,<span class="string">"学院"</span>,<span class="string">"课题名称"</span>,<span class="string">"指导老师"</span>]</span><br><span class="line">         csv_file.writerow(head)</span><br><span class="line">         </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">append_csv</span><span class="params">(path, datas)</span>:</span></span><br><span class="line">     <span class="keyword">with</span> open(path, <span class="string">"a"</span>, newline=<span class="string">''</span>) <span class="keyword">as</span> file: <span class="comment"># 处理csv读写时不同换行符  linux:\n    windows:\r\n    mac:\r</span></span><br><span class="line">         csv_file = csv.writer(file)</span><br><span class="line">         csv_file.writerows(datas)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">create_csv(<span class="string">r'C:\Users\25865\example.csv'</span>)   </span><br><span class="line">xt = []</span><br><span class="line">listdirdocx(<span class="string">r'C:\Users\25865\test'</span>, xt)</span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> xt:</span><br><span class="line">    num = num + <span class="number">1</span></span><br><span class="line">    print(name)</span><br><span class="line">    pickinformation(name)</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">os.system(<span class="string">"pause"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>调试过程如下</p>
-<p><img src="/2019/12/15/python处理word文件/2.jpg" alt></p>
-<p>最后将csv用excel打开，另存为xlsx</p>
-<p><img src="/2019/12/15/python处理word文件/3.jpg" alt></p>
-<p>大功告成！</p>
-<p>（沙雕老师们真的是刷新了我认知的下限，一个填了联系方式但是忘写姓名的居然是传闻对学长资源倾斜严重以至于让学长保研清华的年轻教授，好在认识还能填上人名（明明之前听学长的描述对这个老师印象超好的说，要不是研究方向我不是很擅长我就像同班同学一样也去找他了😂，嘛，虽然现在印象也不错，毕竟是四个老师中沙雕程度最低的一个）；另一个所有个人信息忘了填，估计之后还得纳闷为啥没人找他做项目呢。还有两个项目名称爬不出来的，好在现在的windows文件系统搜索可以搜索到文件内的内容，直接搜一下就好了，结果一看，一个是填的超链接，一个是一人多开8个项目的其中一个项目贴了一张图进去，简直是人类究极迷惑行为，质疑一下他们真的认真想过给本科生做啥项目了么，那一个人带那么多组本科生的是不是根本就没想过管项目的死活？）</p>
-
+        
+          <p class="article-more-link">
+            <a href="/2019/12/15/python处理word文件/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck478by0w000cgsv363nnepce" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck478fcbq00085sv3a2xrlq0f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-QT如何使用lib与dll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/11/QT如何使用lib与dll/" class="article-date">
-  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>添加库文件：</p>
-<p> <a href="https://blog.csdn.net/fan_xingwang/article/details/92816323" target="_blank" rel="noopener">https://blog.csdn.net/fan_xingwang/article/details/92816323</a> </p>
-<p>改用绝对路径：</p>
-<p> <a href="https://www.cnblogs.com/luoxiang/p/4866705.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoxiang/p/4866705.html</a> </p>
-<p>显示调用</p>
-<p> <a href="https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html" target="_blank" rel="noopener">https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html</a> </p>
-<p>隐式调用把.h文件include进去就可以直接使用函数名了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck478bxza0004gsv3rqb6o2lt" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
 
     </footer>
   </div>
@@ -200,7 +144,52 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ck478by11000fgsv3w0ta6xhj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ck478fcbg00045sv3vwi12x3h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-QT如何使用lib与dll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/11/QT如何使用lib与dll/" class="article-date">
+  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>添加库文件：</p>
+<p> <a href="https://blog.csdn.net/fan_xingwang/article/details/92816323" target="_blank" rel="noopener">https://blog.csdn.net/fan_xingwang/article/details/92816323</a> </p>
+<p>改用绝对路径：</p>
+<p> <a href="https://www.cnblogs.com/luoxiang/p/4866705.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoxiang/p/4866705.html</a> </p>
+<p>显示调用</p>
+<p> <a href="https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html" target="_blank" rel="noopener">https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html</a> </p>
+<p>隐式调用把.h文件include进去就可以直接使用函数名了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck478fcbk00055sv3vv7th8i0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
@@ -243,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/hello-world/" data-id="ck478by0y000dgsv3aw8tc7du" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/11/hello-world/" data-id="ck478fcbc00035sv3zgdgzxtu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
@@ -282,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/05/社团招新/" data-id="ck478by250011gsv3u2wr64oj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/05/社团招新/" data-id="ck478fccq000r5sv3en6c4pee" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -323,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/02/开学/" data-id="ck478by1z000wgsv3f11qpmnb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/02/开学/" data-id="ck478fcct000u5sv3qe5wyqdv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -361,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/22/学习QT5绘图/" data-id="ck478by1c000qgsv3m5fgwd5m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/22/学习QT5绘图/" data-id="ck478fccm000n5sv3im0tee88" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
@@ -415,7 +404,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/21/BJUT校园网路由器设置/" data-id="ck478bxz00001gsv3e4y3vzrq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/21/BJUT校园网路由器设置/" data-id="ck478fccv000w5sv3pnb35xbs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>
@@ -454,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/02/博文添加多个tag/" data-id="ck478by18000lgsv3yzoykhdn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/08/02/博文添加多个tag/" data-id="ck478fcc5000g5sv3fhs66w8k" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/">blog</a></li></ul>
@@ -494,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/07/29/同步测试test2/" data-id="ck478by1e000rgsv3pb65xwh2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/07/29/同步测试test2/" data-id="ck478fccj000l5sv3si6vel15" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/blog/">blog</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
@@ -560,11 +549,11 @@
           </li>
         
           <li>
-            <a href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
+            <a href="/2019/12/11/QT绘图/">QT绘图</a>
           </li>
         
           <li>
-            <a href="/2019/12/11/QT绘图/">QT绘图</a>
+            <a href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
           </li>
         
           <li>

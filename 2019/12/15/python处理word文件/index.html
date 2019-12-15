@@ -7,22 +7,22 @@
   
   <title>python处理word文件 | SuperMaxine&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去  python处理docx比较方便，而所给的文件除了一个之外都是doc，所">
+  <meta name="description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去">
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python处理word文件">
 <meta property="og:url" content="http://yoursite.com/2019/12/15/python处理word文件/index.html">
 <meta property="og:site_name" content="SuperMaxine&#39;s Blog">
-<meta property="og:description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去  python处理docx比较方便，而所给的文件除了一个之外都是doc，所">
+<meta property="og:description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2019/12/15/python处理word文件/4.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/12/15/python处理word文件/1.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/12/15/python处理word文件/2.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/12/15/python处理word文件/3.jpg">
-<meta property="og:updated_time" content="2019-12-15T16:33:41.671Z">
+<meta property="og:updated_time" content="2019-12-15T16:36:53.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python处理word文件">
-<meta name="twitter:description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去  python处理docx比较方便，而所给的文件除了一个之外都是doc，所">
+<meta name="twitter:description" content="最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字 而今天要处理一堆文件，把其中的内容挑到execl中去">
 <meta name="twitter:image" content="http://yoursite.com/2019/12/15/python处理word文件/4.jpg">
   
     <link rel="alternate" href="/atom.xml" title="SuperMaxine&#39;s Blog" type="application/atom+xml">
@@ -94,6 +94,8 @@
       
         <p>最近做word工作比较多，上次用了一个邮件功能，从execl中读取数据填空生成大量word页面。后来又用到了通配符和非通配符查找数字，如果不打开通配符的话^#^#^#^#^#^#^#^#表示连续的8个数字，勾选通配符复选框后/[0-9]{1,3}/表示连续的1-3个数字</p>
 <p>而今天要处理一堆文件，把其中的内容挑到execl中去</p>
+<a id="more"></a>
+
 <p><img src="/2019/12/15/python处理word文件/4.jpg" alt></p>
 <p>python处理docx比较方便，而所给的文件除了一个之外都是doc，所以首先把所有doc文件另存为docx文件。代码如下</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> win32api</span><br><span class="line"><span class="keyword">import</span> win32com</span><br><span class="line"><span class="keyword">from</span> win32com.client <span class="keyword">import</span> Dispatch</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">listdir</span><span class="params">(path, list_name)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> os.listdir(path):</span><br><span class="line">        file_path = os.path.join(path, file)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(file_path):</span><br><span class="line">            listdir(file_path, list_name)</span><br><span class="line">        <span class="keyword">elif</span> os.path.splitext(file_path)[<span class="number">1</span>] == <span class="string">'.doc'</span>:</span><br><span class="line">            list_name.append(file_path)</span><br><span class="line">            </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">doc2docx</span><span class="params">(path)</span>:</span></span><br><span class="line">    w = win32com.client.Dispatch(<span class="string">'Word.Application'</span>)</span><br><span class="line">    w.Visible = <span class="number">0</span></span><br><span class="line">    w.DisplayAlerts = <span class="number">0</span></span><br><span class="line">    doc = w.Documents.Open(path)</span><br><span class="line">    newpath = os.path.splitext(path)[<span class="number">0</span>] + <span class="string">'.docx'</span></span><br><span class="line">    doc.SaveAs(newpath, <span class="number">12</span>, <span class="literal">False</span>, <span class="string">""</span>, <span class="literal">True</span>, <span class="string">""</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>)</span><br><span class="line">    doc.Close()</span><br><span class="line">    w.Quit()</span><br><span class="line">    os.remove(path)</span><br><span class="line">    <span class="keyword">return</span> newpath</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">xt = []</span><br><span class="line">listdir(<span class="string">r'C:\Users\25865\test'</span>, xt)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> xt:</span><br><span class="line">    doc2docx(name)</span><br><span class="line">    print(name)</span><br><span class="line">    </span><br><span class="line">os.system(<span class="string">"pause"</span>)</span><br></pre></td></tr></table></figure>
@@ -113,7 +115,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck478by0w000cgsv363nnepce" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck478fcbq00085sv3a2xrlq0f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -125,9 +127,9 @@
 <nav id="article-nav">
   
   
-    <a href="/2019/12/11/QT如何使用lib与dll/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/12/11/QT绘图/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">QT如何使用lib与dll</div>
+      <div class="article-nav-title">QT绘图</div>
     </a>
   
 </nav>
@@ -182,11 +184,11 @@
           </li>
         
           <li>
-            <a href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
+            <a href="/2019/12/11/QT绘图/">QT绘图</a>
           </li>
         
           <li>
-            <a href="/2019/12/11/QT绘图/">QT绘图</a>
+            <a href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
           </li>
         
           <li>
