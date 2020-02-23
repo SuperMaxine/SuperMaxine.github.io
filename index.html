@@ -65,6 +65,77 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-在Ubuntu-16-04配置命令行走SS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS/" class="article-date">
+  <time datetime="2020-02-23T16:03:30.000Z" itemprop="datePublished">2020-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/02/24/在Ubuntu-16-04配置命令行走SS/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h6 id="1-安装最新版ShadowSocks"><a href="#1-安装最新版ShadowSocks" class="headerlink" title="1. 安装最新版ShadowSocks"></a>1. 安装最新版ShadowSocks</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-pip</span><br><span class="line">sudo apt install libsodium-dev</span><br><span class="line">sudo pip install https://github.com/shadowsocks/shadowsocks/archive/master.zip -U</span><br><span class="line">123</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-ShadowSocks配置"><a href="#2-ShadowSocks配置" class="headerlink" title="2.ShadowSocks配置"></a>2.ShadowSocks配置</h6><p>找到ShadowSocks的安装位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo find / -name shadows*</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p>我的安装路径是/usr/local/lib/python2.7/dist-packages/shadowsocks。</p>
+<h6 id="3-在安装路径下新建并修改默认配置文件"><a href="#3-在安装路径下新建并修改默认配置文件" class="headerlink" title="3.在安装路径下新建并修改默认配置文件"></a>3.在安装路径下新建并修改默认配置文件</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim config.json</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<h6 id="并写入如下内容"><a href="#并写入如下内容" class="headerlink" title="并写入如下内容"></a>并写入如下内容</h6><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"><span class="attr">"server"</span>:<span class="string">"*****"</span>,</span><br><span class="line"><span class="attr">"server_port"</span>:*****,</span><br><span class="line"><span class="attr">"local_port"</span>:<span class="number">1080</span>,</span><br><span class="line"><span class="attr">"password"</span>:<span class="string">"*****"</span>,</span><br><span class="line"><span class="attr">"timeout"</span>:<span class="number">600</span>,</span><br><span class="line"><span class="attr">"method"</span>:<span class="string">"chacha20-ietf-poly1305"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打开终端：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/lib/python2.7/dist-packages/shadowsocks</span><br><span class="line">sslocal</span><br></pre></td></tr></table></figure>
+
+<p>成功的话会提示：INFO Starting local at 127.0.0.1</p>
+<h6 id="4-配置全局代理"><a href="#4-配置全局代理" class="headerlink" title="4.配置全局代理"></a>4.配置全局代理</h6><p>启动shawdowsocks服务后，发现并不能翻墙上网，这是因为shawdowsocks是socks 5代理，需要客户端配合才能翻墙。</p>
+<p>为了让整个系统都走shawdowsocks通道，需要配置全局代理，可以通过polipo实现。</p>
+<p>首先是安装polipo：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install polipo</span><br></pre></td></tr></table></figure>
+
+<p>接着修改polipo的配置文件/etc/polipo/config：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">logSyslog = true</span><br><span class="line">logFile = /var/log/polipo/polipo.log</span><br><span class="line"></span><br><span class="line">proxyAddress = &quot;0.0.0.0&quot;</span><br><span class="line"></span><br><span class="line">socksParentProxy = &quot;127.0.0.1:1080&quot;</span><br><span class="line">socksProxyType = socks5</span><br><span class="line"></span><br><span class="line">chunkHighMark = 50331648</span><br><span class="line">objectHighMark = 16384</span><br><span class="line"></span><br><span class="line">serverMaxSlots = 64</span><br><span class="line">serverSlots = 16</span><br><span class="line">serverSlots1 = 32</span><br></pre></td></tr></table></figure>
+
+<p>重启polipo服务：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/polipo restart</span><br></pre></td></tr></table></figure>
+
+<p>为终端配置http代理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy=&quot;http://127.0.0.1:8123/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>接着测试下能否翻墙：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl www.google.com</span><br></pre></td></tr></table></figure>
+
+<p>如果有响应，则全局代理配置成功。</p>
+<h6 id="5-注意事项"><a href="#5-注意事项" class="headerlink" title="5.注意事项"></a>5.注意事项</h6><p>如果系统重启后，需要重新执行下面三句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/lib/python2.7/dist-packages/shadowsocks</span><br><span class="line">sslocal</span><br><span class="line">export http_proxy=&quot;http://127.0.0.1:8123/&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS/" data-id="ck6z8f9xi000q0gc879gs8w7q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" class="article-date">
@@ -124,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck6z8d5hy000v1gc8ttumfqvn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck6z8f9xl000v0gc88l8kvwm0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -162,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck6z8d5h600001gc8u5pv4mo0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck6z8f9wx00010gc8pgdtkdu6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,7 +270,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck6z8d5i200121gc8wnqc3z42" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck6z8f9xq00160gc897x1g84q" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -243,7 +314,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck6z8d5hn000a1gc8137bfabe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck6z8f9xc000e0gc8ikn4oty9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -286,55 +357,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck6z8d5hm00091gc8qfb8havv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck6z8f9x500050gc88wp1lsxl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-QT如何使用lib与dll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/11/QT如何使用lib与dll/" class="article-date">
-  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>添加库文件：</p>
-<p> <a href="https://blog.csdn.net/fan_xingwang/article/details/92816323" target="_blank" rel="noopener">https://blog.csdn.net/fan_xingwang/article/details/92816323</a> </p>
-<p>改用绝对路径：</p>
-<p> <a href="https://www.cnblogs.com/luoxiang/p/4866705.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoxiang/p/4866705.html</a> </p>
-<p>显示调用</p>
-<p> <a href="https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html" target="_blank" rel="noopener">https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html</a> </p>
-<p>隐式调用把.h文件include进去就可以直接使用函数名了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck6z8d5hi00051gc8nfwsfuku" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
 
     </footer>
   </div>
@@ -377,7 +403,52 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ck6z8d5hj00061gc81sv32wmf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ck6z8f9xb000c0gc87we1eiba" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-QT如何使用lib与dll" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/11/QT如何使用lib与dll/" class="article-date">
+  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>添加库文件：</p>
+<p> <a href="https://blog.csdn.net/fan_xingwang/article/details/92816323" target="_blank" rel="noopener">https://blog.csdn.net/fan_xingwang/article/details/92816323</a> </p>
+<p>改用绝对路径：</p>
+<p> <a href="https://www.cnblogs.com/luoxiang/p/4866705.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoxiang/p/4866705.html</a> </p>
+<p>显示调用</p>
+<p> <a href="https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html" target="_blank" rel="noopener">https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html</a> </p>
+<p>隐式调用把.h文件include进去就可以直接使用函数名了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck6z8f9x800090gc85jepu0vy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
@@ -416,7 +487,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/05/社团招新/" data-id="ck6z8d5i0000z1gc8w87qcdf0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/05/社团招新/" data-id="ck6z8f9xp00140gc8hp2hpowt" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -457,48 +528,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/02/开学/" data-id="ck6z8d5hz000x1gc8ecfullep" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/02/开学/" data-id="ck6z8f9xm000z0gc8jmxy5onk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-学习QT5绘图" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/08/22/学习QT5绘图/" class="article-date">
-  <time datetime="2019-08-22T15:28:01.000Z" itemprop="datePublished">2019-08-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/22/学习QT5绘图/">学习QT5绘图</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/08/22/学习QT5绘图/" data-id="ck6z8d5hx000t1gc8ekbqvnyh" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
 
     </footer>
   </div>
@@ -535,7 +568,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/QT/" style="font-size: 13.33px;">QT</a> <a href="/tags/blog/" style="font-size: 16.67px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/生活/" style="font-size: 16.67px;">生活</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+      <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
     </div>
   </div>
 
@@ -557,6 +590,10 @@
       <ul>
         
           <li>
+            <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
+          </li>
+        
+          <li>
             <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
           </li>
         
@@ -570,10 +607,6 @@
         
           <li>
             <a href="/2019/12/15/python处理word文件/">python处理word文件</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/13/hello-world/">Hello World</a>
           </li>
         
       </ul>
