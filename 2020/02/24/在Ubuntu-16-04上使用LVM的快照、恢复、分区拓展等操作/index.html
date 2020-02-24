@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作 | SuperMaxine&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作">
+<meta property="og:url" content="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/index.html">
+<meta property="og:site_name" content="SuperMaxine&#39;s Blog">
+<meta property="og:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/1.jpg">
+<meta property="og:updated_time" content="2020-02-24T01:12:21.591Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作">
+<meta name="twitter:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="SuperMaxine&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SuperMaxine&#39;s Blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" class="article-date">
+  <time datetime="2020-02-24T00:15:27.000Z" itemprop="datePublished">2020-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="0-基础知识"><a href="#0-基础知识" class="headerlink" title="0.基础知识"></a>0.基础知识</h4><p>LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）</p>
+<p><img src="/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/1.jpg" alt="img"></p>
+<p>最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的</p>
+<a id="more"></a>
+
+<h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h4><p>Ubuntu 16.04 server安装的时候可以选择自动在硬盘上建立LVM，会自动名为“ubuntu-vg”的vg卷组，并在此卷组上建立两个LV分区，分别为ext4文件系统的名为“root”主分区和名为“swap”的swap分区</p>
+<!--在此时请注意，默认会把硬盘所有可用容量分配给主分区，建议在安装系统时询问分配给主分区多少容量的时候自行减少想要用来做快照的容量-->
+
+<p>完成安装后可以使用vgs和lvs以及pvdisplay、vgdisplay、vgdisplay命令观察VG和LV(途中goSS为我已经建立的快照逻辑卷，还剩下15.93g的剩余空间，我会用剩下的空间再建立一个快照)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ sudo vgs</span><br><span class="line">  VG        #PV #LV #SN Attr   VSize   VFree </span><br><span class="line">  ubuntu-vg   1   3   1 wz--n- 222.85g 15.93g</span><br><span class="line">supermaxine@ubuntu:~$ sudo lvs</span><br><span class="line">  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert</span><br><span class="line">  goSS   ubuntu-vg swi-a-s---  12.00g      root   10.73                                  </span><br><span class="line">  root   ubuntu-vg owi-aos--- 193.97g                                                    </span><br><span class="line">  swap_1 ubuntu-vg -wi-ao---- 976.00m</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ sudo pvdisplay</span><br><span class="line">  --- Physical volume ---</span><br><span class="line">  PV Name               /dev/sdb5</span><br><span class="line">  VG Name               ubuntu-vg</span><br><span class="line">  PV Size               222.85 GiB / not usable 3.00 MiB</span><br><span class="line">  Allocatable           yes </span><br><span class="line">  PE Size               4.00 MiB</span><br><span class="line">  Total PE              57050</span><br><span class="line">  Free PE               4078</span><br><span class="line">  Allocated PE          52972</span><br><span class="line">  PV UUID               e6XiZv-irc2-xQRY-S64I-Is4F-WnCf-bnlyCg</span><br><span class="line">   </span><br><span class="line">supermaxine@ubuntu:~$ sudo vgdisplay</span><br><span class="line">  --- Volume group ---</span><br><span class="line">  VG Name               ubuntu-vg</span><br><span class="line">  System ID             </span><br><span class="line">  Format                lvm2</span><br><span class="line">  Metadata Areas        1</span><br><span class="line">  Metadata Sequence No  43</span><br><span class="line">  VG Access             read/write</span><br><span class="line">  VG Status             resizable</span><br><span class="line">  MAX LV                0</span><br><span class="line">  Cur LV                3</span><br><span class="line">  Open LV               2</span><br><span class="line">  Max PV                0</span><br><span class="line">  Cur PV                1</span><br><span class="line">  Act PV                1</span><br><span class="line">  VG Size               222.85 GiB</span><br><span class="line">  PE Size               4.00 MiB</span><br><span class="line">  Total PE              57050</span><br><span class="line">  Alloc PE / Size       52972 / 206.92 GiB</span><br><span class="line">  Free  PE / Size       4078 / 15.93 GiB</span><br><span class="line">  VG UUID               30o6yr-eYmt-P7wp-01wD-Ph6P-KwdH-5sByDp</span><br><span class="line">   </span><br><span class="line">supermaxine@ubuntu:~$ sudo lvdisplay</span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  LV Path                /dev/ubuntu-vg/root</span><br><span class="line">  LV Name                root</span><br><span class="line">  VG Name                ubuntu-vg</span><br><span class="line">  LV UUID                qPNN2m-ietz-xIgm-PAzd-GFUe-eA0B-kmc4bo</span><br><span class="line">  LV Write Access        read/write</span><br><span class="line">  LV Creation host, time ubuntu, 2020-02-23 14:39:25 +0800</span><br><span class="line">  LV snapshot status     source of</span><br><span class="line">                         goSS [active]</span><br><span class="line">  LV Status              available</span><br><span class="line">  # open                 1</span><br><span class="line">  LV Size                193.97 GiB</span><br><span class="line">  Current LE             49656</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  Read ahead sectors     auto</span><br><span class="line">  - currently set to     256</span><br><span class="line">  Block device           252:2</span><br><span class="line">   </span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  LV Path                /dev/ubuntu-vg/swap_1</span><br><span class="line">  LV Name                swap_1</span><br><span class="line">  VG Name                ubuntu-vg</span><br><span class="line">  LV UUID                u5bdZA-VTlx-A2e2-1YrY-tgWA-h7XD-7YhMUP</span><br><span class="line">  LV Write Access        read/write</span><br><span class="line">  LV Creation host, time ubuntu, 2020-02-23 14:39:25 +0800</span><br><span class="line">  LV Status              available</span><br><span class="line">  # open                 2</span><br><span class="line">  LV Size                976.00 MiB</span><br><span class="line">  Current LE             244</span><br><span class="line">  Segments               1</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  Read ahead sectors     auto</span><br><span class="line">  - currently set to     256</span><br><span class="line">  Block device           252:6</span><br><span class="line">   </span><br><span class="line">  --- Logical volume ---</span><br><span class="line">  LV Path                /dev/ubuntu-vg/goSS</span><br><span class="line">  LV Name                goSS</span><br><span class="line">  VG Name                ubuntu-vg</span><br><span class="line">  LV UUID                drvnYV-h504-x8ml-VcqI-EDvd-gXzc-6rtae6</span><br><span class="line">  LV Write Access        read/write</span><br><span class="line">  LV Creation host, time ubuntu, 2020-02-23 22:38:10 +0800</span><br><span class="line">  LV snapshot status     active destination for root</span><br><span class="line">  LV Status              available</span><br><span class="line">  # open                 0</span><br><span class="line">  LV Size                193.97 GiB</span><br><span class="line">  Current LE             49656</span><br><span class="line">  COW-table size         12.00 GiB</span><br><span class="line">  COW-table LE           3072</span><br><span class="line">  Allocated to snapshot  10.73%</span><br><span class="line">  Snapshot chunk size    4.00 KiB</span><br><span class="line">  Segments               2</span><br><span class="line">  Allocation             inherit</span><br><span class="line">  Read ahead sectors     auto</span><br><span class="line">  - currently set to     256</span><br><span class="line">  Block device           252:5</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-建立快照"><a href="#2-建立快照" class="headerlink" title="2.建立快照"></a>2.建立快照</h4><p>创建快照时，将创建一个新的逻辑卷，作为原逻辑卷的克隆。 快照卷最初不使用任何空间，但是当对原始卷进行更改时，更改的块在更改之前被复制到快照卷，以便保存它们。 这意味着对原点的更改越多，快照需要的空间就越多。 如果快照卷使用了分配给它的所有空间，那么快照就会中断，不能再使用，只剩下修改过的原点。 Lvs 命令将告诉您在逻辑卷快照中使用了多少空间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ sudo lvcreate -s -n go -L 15g ubuntu-vg/root</span><br><span class="line">[sudo] password <span class="keyword">for</span> supermaxine: </span><br><span class="line">  Logical volume <span class="string">"go"</span> created.</span><br></pre></td></tr></table></figure>
+
+<p> 如果它开始满了，您可能需要使用 lvextend 命令扩展它。 要创建root逻辑卷的快照并命名为 go，请运行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ sudo lvextend -L +0.9g ubuntu-vg/go</span><br><span class="line">  Rounding size to boundary between physical extents: 924.00 MiB</span><br><span class="line">  Size of logical volume ubuntu-vg/go changed from 15.00 GiB (3840 extents) to 15.90 GiB (4071 extents).</span><br><span class="line">  Logical volume go successfully resized.</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-合并快照"><a href="#3-合并快照" class="headerlink" title="3.合并快照"></a>3.合并快照</h4><p>当您获得快照时，如果您愿意，您可以挂载它，并且可以看到原始文件系统，就像您创建快照时看到的那样。 在下面的示例中，您将挂载 /dev /ubuntu-vg/go 逻辑卷。 您可以在不影响原始分区的情况下修改快照，也可以再不影响快照的情况下使用修改原始分区。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ mkdir bak</span><br><span class="line">supermaxine@ubuntu:~$ ls</span><br><span class="line">bak</span><br><span class="line">supermaxine@ubuntu:~$ sudo mount /dev/ubuntu-vg/go ~/bak</span><br><span class="line">supermaxine@ubuntu:~$ <span class="built_in">cd</span> bak/</span><br><span class="line">supermaxine@ubuntu:~/bak$ ls</span><br><span class="line">bin   dev  home        lib    lost+found  mnt  proc  run   snap  sys  usr  vmlinuz</span><br><span class="line">boot  etc  initrd.img  lib64  media       opt  root  sbin  srv   tmp  var</span><br><span class="line">supermaxine@ubuntu:~$ sudo umount ~/bak</span><br></pre></td></tr></table></figure>
+
+<p>如果您获取根逻辑卷的快照，然后升级一些包，或者升级到下一个整个发行版，然后认为它不能正常工作，那么您可以将快照合并回原始卷，有效地恢复到创建快照时的状态。 要做到这一点，你只需运行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo lvconvert --merge ubuntu-vg/go</span><br></pre></td></tr></table></figure>
+
+<p>如果正在使用 ubuntu-vg/root 的原始卷，它将通知您在下次激活卷时将进行合并。 如果这是根卷，那么您需要重新引导才能实现。 在下一次启动时，卷将被激活，合并将在后台开始，因此您的系统将启动，就好像自从创建快照以来您从未做过更改一样，并且实际的数据移动将在您工作的时候在后台发生。</p>
+<h4 id="4-备份快照（待完成）"><a href="#4-备份快照（待完成）" class="headerlink" title="4.备份快照（待完成）"></a>4.备份快照（待完成）</h4><p>把快照中的数据导出</p>
+<h5 id="挂载数据卷"><a href="#挂载数据卷" class="headerlink" title="挂载数据卷"></a>挂载数据卷</h5><p>这一步与前文相同</p>
+<h5 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ <span class="built_in">cd</span> bak/</span><br><span class="line">supermaxine@ubuntu:~/bak$ sudo tar -cf ~/go.tar.gz *</span><br></pre></td></tr></table></figure>
+
+<h5 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h5><p>待实验</p>
+<!--引用：-->
+
+<!--1. "https://wiki.ubuntu.com/Lvm"-->
+
+<!--2. "https://www.cnblogs.com/sparkdev/p/10232567.html"-->
+
+<!--3. "https://linux.cn/article-5117-1.html?pr"-->
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck6zrnvrb000wx8c8bggf5r7j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QT/">QT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/网络/">网络</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/网络/" style="font-size: 10px;">网络</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/">在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/13/CA与PKI学习笔记/">CA与PKI学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/17/期末复习有感/">期末复习有感</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/15/python处理word文件/">python处理word文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 SuperMaxine<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
