@@ -16,7 +16,7 @@
 <meta property="og:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/1.jpg">
-<meta property="og:updated_time" content="2020-02-24T01:12:21.591Z">
+<meta property="og:updated_time" content="2020-02-24T01:20:14.095Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作">
 <meta name="twitter:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
@@ -115,7 +115,10 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo lvconvert --merge ubuntu-vg/go</span><br></pre></td></tr></table></figure>
 
 <p>如果正在使用 ubuntu-vg/root 的原始卷，它将通知您在下次激活卷时将进行合并。 如果这是根卷，那么您需要重新引导才能实现。 在下一次启动时，卷将被激活，合并将在后台开始，因此您的系统将启动，就好像自从创建快照以来您从未做过更改一样，并且实际的数据移动将在您工作的时候在后台发生。</p>
-<h4 id="4-备份快照（待完成）"><a href="#4-备份快照（待完成）" class="headerlink" title="4.备份快照（待完成）"></a>4.备份快照（待完成）</h4><p>把快照中的数据导出</p>
+<h4 id="4-删除分区"><a href="#4-删除分区" class="headerlink" title="4.删除分区"></a>4.删除分区</h4><p>如果您已经确定不需要旧的数据卷或者想要腾出空间建立新的数据卷，您可以使用以下命令删除数据卷</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo lvremove ubuntu-vg/go</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-备份快照（待完成）"><a href="#5-备份快照（待完成）" class="headerlink" title="5.备份快照（待完成）"></a>5.备份快照（待完成）</h4><p>把快照中的数据导出</p>
 <h5 id="挂载数据卷"><a href="#挂载数据卷" class="headerlink" title="挂载数据卷"></a>挂载数据卷</h5><p>这一步与前文相同</p>
 <h5 id="导出"><a href="#导出" class="headerlink" title="导出"></a>导出</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ <span class="built_in">cd</span> bak/</span><br><span class="line">supermaxine@ubuntu:~/bak$ sudo tar -cf ~/go.tar.gz *</span><br></pre></td></tr></table></figure>
 
@@ -130,7 +133,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck6zrnvrb000wx8c8bggf5r7j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck6zrxugf000u94c8p5i85kfm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
