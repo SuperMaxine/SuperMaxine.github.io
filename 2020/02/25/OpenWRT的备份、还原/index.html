@@ -7,18 +7,18 @@
   
   <title>OpenWRT的备份、还原 | SuperMaxine&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。 1.基础知识ope">
+  <meta name="description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。">
 <meta name="keywords" content="网络,openwrt">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OpenWRT的备份、还原">
 <meta property="og:url" content="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/index.html">
 <meta property="og:site_name" content="SuperMaxine&#39;s Blog">
-<meta property="og:description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。 1.基础知识ope">
+<meta property="og:description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2020-02-26T05:59:36.222Z">
+<meta property="og:updated_time" content="2020-02-26T06:48:58.649Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OpenWRT的备份、还原">
-<meta name="twitter:description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。 1.基础知识ope">
+<meta name="twitter:description" content="迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。 然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。">
   
     <link rel="alternate" href="/atom.xml" title="SuperMaxine&#39;s Blog" type="application/atom+xml">
   
@@ -89,6 +89,8 @@
       
         <p>迫于没有了解过编译内核，所以之前买的高性能小路由器——GL.iNet家的GL-AR750S是让大佬帮我配置好了校内免流所需的环境和工具。</p>
 <p>然而春节在家，为了把网线接进卧室，发现家里n年前买宽带送的路由器完全不够用，性能羸弱还不大稳定，明明电信都支持ipv6了然而路由器却不支持（此处留下一笔墙突然加高的辛酸泪），于是，为了能够临时征用小路由而且之后回学校还能恢复它，我开始了折腾。</p>
+<a id="more"></a>
+
 <h3 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1.基础知识"></a>1.基础知识</h3><p>openwrt系统运用了一个很高级的overlay技术，说白了就是整个“/”根目录是由一部分可读不可写的系统rom和一部分可读可写的储存合并起来的。</p>
 <p>用cat /proc/mtd 显示Flash分区</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">:~# cat /proc/mtd</span><br><span class="line">dev:  size  erasesize name</span><br><span class="line">mtd0: 00020000 00020000 "CFE"</span><br><span class="line">mtd1: 000dff00 00020000 "kernel"</span><br><span class="line">mtd2: 00ee0000 00020000 "rootfs"</span><br><span class="line">mtd3: 00ac0000 00020000 "rootfs_data"</span><br><span class="line">mtd4: 00020000 00020000 "nvram"</span><br><span class="line">mtd5: 00fc0000 00020000 "linux"</span><br></pre></td></tr></table></figure>
@@ -114,7 +116,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck72wtni20000ekc8rku8a2r7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck72ykj1o0001f0c8ldhd25ki" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openwrt/">openwrt</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络/">网络</a></li></ul>

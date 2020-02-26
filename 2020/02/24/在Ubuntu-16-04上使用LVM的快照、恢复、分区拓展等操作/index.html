@@ -16,7 +16,7 @@
 <meta property="og:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/1.jpg">
-<meta property="og:updated_time" content="2020-02-24T01:20:14.095Z">
+<meta property="og:updated_time" content="2020-02-26T06:47:43.035Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作">
 <meta name="twitter:description" content="0.基础知识LVM的系统结构，从物理磁盘还是分别分为PV（物理分区）、VG（卷组）、LV（逻辑卷）  最终，操作系统所使用的一切文件都是在逻辑卷上使用的，相当于在最普遍的物理分区使用方法上加入了VG和LV两个抽象层，从而实现快捷地扩缩容量、重建“分区”的目的">
@@ -95,8 +95,7 @@
 <a id="more"></a>
 
 <h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1.安装"></a>1.安装</h4><p>Ubuntu 16.04 server安装的时候可以选择自动在硬盘上建立LVM，会自动名为“ubuntu-vg”的vg卷组，并在此卷组上建立两个LV分区，分别为ext4文件系统的名为“root”主分区和名为“swap”的swap分区</p>
-<!--在此时请注意，默认会把硬盘所有可用容量分配给主分区，建议在安装系统时询问分配给主分区多少容量的时候自行减少想要用来做快照的容量-->
-
+<p>注：在此时请注意，默认会把硬盘所有可用容量分配给主分区，建议在安装系统时询问分配给主分区多少容量的时候自行减少想要用来做快照的容量</p>
 <p>完成安装后可以使用vgs和lvs以及pvdisplay、vgdisplay、vgdisplay命令观察VG和LV(途中goSS为我已经建立的快照逻辑卷，还剩下15.93g的剩余空间，我会用剩下的空间再建立一个快照)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">supermaxine@ubuntu:~$ sudo vgs</span><br><span class="line">  VG        #PV #LV #SN Attr   VSize   VFree </span><br><span class="line">  ubuntu-vg   1   3   1 wz--n- 222.85g 15.93g</span><br><span class="line">supermaxine@ubuntu:~$ sudo lvs</span><br><span class="line">  LV     VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert</span><br><span class="line">  goSS   ubuntu-vg swi-a-s---  12.00g      root   10.73                                  </span><br><span class="line">  root   ubuntu-vg owi-aos--- 193.97g                                                    </span><br><span class="line">  swap_1 ubuntu-vg -wi-ao---- 976.00m</span><br></pre></td></tr></table></figure>
 
@@ -133,7 +132,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck72wtnj1000tekc8ksopboq4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck72ykj2a000tf0c8hsydiq8f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
