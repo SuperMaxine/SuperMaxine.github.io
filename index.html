@@ -65,6 +65,61 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-MIPS指令与机器码互转" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/11/MIPS指令与机器码互转/" class="article-date">
+  <time datetime="2020-04-11T12:57:23.000Z" itemprop="datePublished">2020-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/11/MIPS指令与机器码互转/">MIPS指令与机器码互转</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="I类型"><a href="#I类型" class="headerlink" title="I类型"></a>I类型</h1><p>带有立即数指令</p>
+<p>lw        100011</p>
+<p>sw        101011</p>
+<p>bwq</p>
+<p>bne    000101</p>
+<p>addi    001000</p>
+<p><img src="/2020/04/11/MIPS指令与机器码互转/2.png" alt="image-20200411211831542"></p>
+<p><strong>opcode</strong>（6位）操作码</p>
+<p><strong>rs</strong>（5位）第一源操作数寄存器编号</p>
+<p><strong>rt</strong>（5位）第二源操作数寄存器编号</p>
+<p><strong>immediate</strong>（16位）立即数，使用时根据需求进行0扩展或符号扩展至32位</p>
+<h4 id="1-addi"><a href="#1-addi" class="headerlink" title="1.addi"></a>1.addi</h4><figure class="highlight plain"><figcaption><span>$21,$22,-50```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">opcode = 8	 (查MIPS指令手册可得)</span><br><span class="line">rs = 22	 (源寄存器编号)</span><br><span class="line">rt = 21	 (目标寄存器编号)</span><br><span class="line">immediate = -50	 (16进制表示为-50的补码：FFCE)</span><br><span class="line"></span><br><span class="line">#### 2.beq/bne</span><br></pre></td></tr></table></figure>
+
+<p>Loop:      beq   $9,$0,End<br>        addu  $8,$8,$10<br>        addiu $9,$9,-1<br>        j     Loop<br>End:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">opcode = 4	(查MIPS指令手册可得)</span><br><span class="line">rs = 9	       (第1源寄存器)</span><br><span class="line">rt = 0	       (第2源寄存器)</span><br><span class="line">immediate = 3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># J类型</span><br><span class="line"></span><br><span class="line">转移类的指令</span><br><span class="line"></span><br><span class="line">j	000010</span><br><span class="line"></span><br><span class="line">jal	000011</span><br><span class="line"></span><br><span class="line">![image-20200411212834651](3.png)</span><br><span class="line"></span><br><span class="line">储存单元的地址需要32位，但是26位的target address指令已经足够定位指令了</span><br><span class="line"></span><br><span class="line">1. 因为一条指令占用一个字空间（即4个字节空间），所以指令的地址低两位永远为0，只需表示前30位即可。</span><br><span class="line">2. 剩下的4位由此时PC地址+4的最高位提供，这也是为什么J型指令的跳转范围仅为**2^26 字空间=2^28 字节空间**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># R类型</span><br><span class="line"></span><br><span class="line">其他指令</span><br><span class="line"></span><br><span class="line">![image-20200411210644020](image-20200411210532211.png)</span><br><span class="line"></span><br><span class="line">**opcode**（6位）操作码，全0</span><br><span class="line"></span><br><span class="line">**rs**（5位）第一源操作数寄存器编号</span><br><span class="line"></span><br><span class="line">**rt**（5位）第二源操作数寄存器编号</span><br><span class="line"></span><br><span class="line">**rd**（5位）接收结果的寄存器编号</span><br><span class="line"></span><br><span class="line">**shamt**（5位）移位数目，非移位指令时总是0</span><br><span class="line"></span><br><span class="line">**funct**（6位）功能码，与操作码共同确定指令功能</span><br><span class="line"></span><br><span class="line">#### 1. add</span><br><span class="line">```add  $8,$9,$10</span><br></pre></td></tr></table></figure>
+
+<p>opcode = 0     (R型指令)<br>rs = 9     (第一源寄存器编号)<br>rt = 10     (第二源寄存器编号)<br>rd = 8     (目的寄存器编号)<br>shamt = 0     (非移位指令)<br>funct = 32     (查MIPS指令手册可得)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/11/MIPS指令与机器码互转/" data-id="ck8vo6s0n0001skc8qv6yx0fj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MIPS指令字典" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/04/03/MIPS指令字典/" class="article-date">
@@ -165,7 +220,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ck8js7x0m0000w4c8jhfmfear" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ck8vo6s0p0002skc829o8f3jp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
@@ -209,7 +264,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck8js7x0x0004w4c8wl6j5gdc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck8vo6s1g000fskc8gsop9mj6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWRT/">OpenWRT</a></li></ul>
@@ -254,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck8js7x1f000vw4c8whgfmac6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck8vo6s1t0011skc8f9gz2o4y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -297,7 +352,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck8js7x1h000zw4c8wu1fcel7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck8vo6s20001iskc8eyovxylc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -335,7 +390,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck8js7x0r0001w4c8pchvsggq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck8vo6s0i0000skc8vvnp1j6r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -372,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck8js7x1k0014w4c8l6w654rj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck8vo6s1w0018skc8u4hur7ra" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -416,7 +471,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck8js7x17000fw4c88bh6godt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck8vo6s1i000gskc8n4y913wl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -459,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck8js7x14000cw4c89hf12t5s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck8vo6s1k000jskc8dljg5be3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
@@ -504,53 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck8js7x100008w4c8cwvemkao" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-QT绘图" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/11/QT绘图/" class="article-date">
-  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/11/QT绘图/">QT绘图</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="选择工具"><a href="#选择工具" class="headerlink" title="选择工具"></a>选择工具</h3><p>Qcharts</p>
-<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>.pro 文件中添加 QT += charts</p>
-<p>.cpp文件开头添加 QT_CHARTS_USE_NAMESPACE/using namespace Qtcharts </p>
-<p>添加头文件</p>
-<p>#include <qchartview><br>#include <qchart></qchart></qchartview></p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p> <a href="https://blog.csdn.net/LKZYnih/article/details/81915436" target="_blank" rel="noopener">https://blog.csdn.net/LKZYnih/article/details/81915436</a> </p>
-<h4 id="画折线图"><a href="#画折线图" class="headerlink" title="画折线图"></a>画折线图</h4><p> <a href="https://blog.csdn.net/mars_xiaolei/article/details/84942516" target="_blank" rel="noopener">https://blog.csdn.net/mars_xiaolei/article/details/84942516</a> </p>
-<h4 id="把曲线显示到控件上"><a href="#把曲线显示到控件上" class="headerlink" title="把曲线显示到控件上"></a><strong>把曲线显示到控件上</strong></h4><p> <a href="https://www.2cto.com/kf/201708/673896.html" target="_blank" rel="noopener">https://www.2cto.com/kf/201708/673896.html</a> </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ck8js7x13000aw4c8aaaufo4k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck8vo6s1b000cskc8ejjdo8vm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
@@ -590,7 +599,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/OpenWRT/" style="font-size: 12.5px;">OpenWRT</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/汇编/" style="font-size: 10px;">汇编</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/计算机组成原理/" style="font-size: 10px;">计算机组成原理</a>
+      <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/OpenWRT/" style="font-size: 12.5px;">OpenWRT</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/汇编/" style="font-size: 12.5px;">汇编</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/计算机组成原理/" style="font-size: 12.5px;">计算机组成原理</a>
     </div>
   </div>
 
@@ -612,6 +621,10 @@
       <ul>
         
           <li>
+            <a href="/2020/04/11/MIPS指令与机器码互转/">MIPS指令与机器码互转</a>
+          </li>
+        
+          <li>
             <a href="/2020/04/03/MIPS指令字典/">MIPS指令字典</a>
           </li>
         
@@ -625,10 +638,6 @@
         
           <li>
             <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
-          </li>
-        
-          <li>
-            <a href="/2020/01/13/CA与PKI学习笔记/">CA与PKI学习笔记</a>
           </li>
         
       </ul>
