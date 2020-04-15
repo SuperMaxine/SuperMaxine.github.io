@@ -17,13 +17,15 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/2.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/3.png">
+<meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/4.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/5.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/6.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/7.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/9.gif">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/10.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/11.png">
-<meta property="og:updated_time" content="2020-04-15T08:36:48.461Z">
+<meta property="og:updated_time" content="2020-04-15T08:38:39.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Anki(AnkiDroud)食用指南">
 <meta name="twitter:description" content="起因​    之前从辅导员那里get到一个很好的出国交流机会，是一轮报名后仍又空缺的名额再次进行的补报。义无反顾的报名后，我悲催的发现我这个近两年没接受过正经英语应试教育而且底子也奇差的学渣要在一个半月内考出雅思6.5的成绩。悲（；´д｀）ゞ ​    天无绝人之路的是，因为疫情原因，许多境外学校都在今年突然支持了duolingo（多邻国）英语证明。它是一个线上英语考试，而且报名费仅仅$49。虽然">
@@ -132,10 +134,20 @@
 
 <p>然后我们就获得了一文件夹的mp3文件</p>
 <h2 id="导入音频-1"><a href="#导入音频-1" class="headerlink" title="导入音频"></a>导入音频</h2><p>上面那个博客的老哥和坑的一点在于，他没说清楚这些音频文件究竟应该放在哪里，搞得我又做实验，又找官方文档的，最后还是我拿Everything搜了一下，发现这个collection.media文件夹在</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">把MP3文件先都放在这里，然后回到Anki对每张卡牌做一个简单的设置</span><br><span class="line"></span><br><span class="line">点击【浏览】，选择需要设置的词库，Ctrl+A，右键，选择【查找替换】</span><br><span class="line"></span><br><span class="line">![image-20200415160614830](3.png)</span><br><span class="line"></span><br><span class="line">![image-20200415160709138](4.png)</span><br><span class="line"></span><br><span class="line">这里需要我们用正则表达式来进行方便的替换了，原博主因为卡牌正面有音标，所以使用的是</span><br><span class="line"></span><br><span class="line">```(^([-a-zA-Z]+).*)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Win10用户名\AppData\Roaming\Anki2\用户1\collection.media</span><br></pre></td></tr></table></figure>
+
+<p>把MP3文件先都放在这里，然后回到Anki对每张卡牌做一个简单的设置</p>
+<p>点击【浏览】，选择需要设置的词库，Ctrl+A，右键，选择【查找替换】</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/3.png" alt="image-20200415160614830"></p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/4.png" alt="image-20200415160709138"></p>
+<p>这里需要我们用正则表达式来进行方便的替换了，原博主因为卡牌正面有音标，所以使用的是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(^([-a-zA-Z]+).*)</span><br></pre></td></tr></table></figure>
 
 <p>但是这个规则只能对一个单词起效，而我的卡牌正面除了所要发音的词汇没有别的，而且音频的文件名也直接使用的是正面的字段，所以我直接使用了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">之后在卡牌正面再加上sound标签和MP3的文件名，在替换栏写入：</span><br><span class="line"></span><br><span class="line">```\1[sound:\2.mp3]</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(^([\s\S]+).*)</span><br></pre></td></tr></table></figure>
+
+<p>之后在卡牌正面再加上sound标签和MP3的文件名，在替换栏写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\1[sound:\2.mp3]</span><br></pre></td></tr></table></figure>
 
 <p><strong>字段选择正面</strong></p>
 <p>勾选正则表达式输入</p>
@@ -156,7 +168,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/" data-id="ck912zqpp0000dcc8ncj09hyi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/" data-id="ck91328rh00000gc8vp9k9e7s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Anki/">Anki</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
