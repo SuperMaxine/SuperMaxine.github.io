@@ -65,6 +65,98 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Anki-AnkiDroud-食用指南" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/15/Anki-AnkiDroud-食用指南/" class="article-date">
+  <time datetime="2020-04-15T07:43:40.000Z" itemprop="datePublished">2020-04-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/15/Anki-AnkiDroud-食用指南/">Anki(AnkiDroud)食用指南</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>​    之前从辅导员那里get到一个很好的出国交流机会，是一轮报名后仍又空缺的名额再次进行的补报。义无反顾的报名后，我悲催的发现我这个近两年没接受过正经英语应试教育而且底子也奇差的学渣要在一个半月内考出雅思6.5的成绩。悲（；´д｀）ゞ</p>
+<p>​    天无绝人之路的是，因为疫情原因，许多境外学校都在今年突然支持了duolingo（多邻国）英语证明。它是一个线上英语考试，而且报名费仅仅$49。虽然很难说它和雅思谁更简单，但是作为一个额外的生路，我肯定也是要对其进行准备的。在进行过一次官网的模考后，我发现比起雅思比较传统的哪怕你词不会也能推测文章意思把题作对的考试形式，guolingo对拼写单词的要求高了很多。于是赶紧淘宝了一份真题和核心词汇，借助Anki(AnkiDroid)试图亡羊补牢。</p>
+<h1 id="导入词汇"><a href="#导入词汇" class="headerlink" title="导入词汇"></a>导入词汇</h1><p>​    淘宝所得到的核心词汇是多份pdf文件，再将其转成文本并经过多轮文本处理、替换将其处理成整整齐齐的两列【词汇-释义】后，我们就可以准备导入Anki了。文本处理以及如何下载安装Anki在此就不在赘述了。</p>
+<p>​    多邻国从格式化的文件中导入文本还是非常简单的，打开桌面端，点击【创建记忆库】，给单词库起一个好听的名字</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/1.png" alt="image-20200415154915238"></p>
+<p>然后选择【导入文件】选择好自己整理好的文件，然后选择刚才新建的题库、选择自己整理好的文件中单词和释义是如何分割的（我用的是tab所以选择制表符）、选择对相同的字段如何处理，最后选择导入即可</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/2.png" alt="image-20200415155206502"></p>
+<p>此时已经成功的创建了一个词库并且可以使用了，但是我个人记忆东西十分依赖于声音刺激，所以我还要加一步导入音频</p>
+<h1 id="导入音频"><a href="#导入音频" class="headerlink" title="导入音频"></a>导入音频</h1><h2 id="准备音频"><a href="#准备音频" class="headerlink" title="准备音频"></a>准备音频</h2><p>首先我们需要把单词的读音都给找到，网上流传有一种通用语音库的方法，但是我仅仅888个单词而且格式也并不十分规范，不如自己动手丰衣足食，这里需要感谢这位博客作者给我提供了很大帮助：</p>
+<p><a href="https://www.cnblogs.com/cql/archive/2013/04/07/3006455.html" target="_blank" rel="noopener">https://www.cnblogs.com/cql/archive/2013/04/07/3006455.html</a></p>
+<p>从它的博客中，我们可以看出有道翻译语音的链接逻辑：</p>
+<table>
+<thead>
+<tr>
+<th>链接</th>
+<th>词语</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="http://dict.youdao.com/dictvoice?audio=absorb" target="_blank" rel="noopener">http://dict.youdao.com/dictvoice?audio=absorb</a></td>
+<td>absorb</td>
+</tr>
+<tr>
+<td><a href="http://dict.youdao.com/dictvoice?audio=plant&amp;type=1" target="_blank" rel="noopener">http://dict.youdao.com/dictvoice?audio=plant&amp;type=1</a></td>
+<td>plant(英音)</td>
+</tr>
+<tr>
+<td><a href="http://dict.youdao.com/dictvoice?audio=plant&amp;type=2" target="_blank" rel="noopener">http://dict.youdao.com/dictvoice?audio=plant&amp;type=2</a></td>
+<td>plant(美音)</td>
+</tr>
+</tbody></table>
+<p>于是把之前整理好的文件中，单词的那一列单独拿出来，写一个简单的python脚本，获取语音的MP3文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*- </span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> open(<span class="string">"fortest.txt"</span>):</span><br><span class="line">    line = line.replace(<span class="string">'\n'</span>, <span class="string">''</span>)</span><br><span class="line">    <span class="keyword">print</span> (line)</span><br><span class="line">    downloadAddress = <span class="string">'http://dict.youdao.com/dictvoice?audio='</span>+ line +<span class="string">'&amp;type=1'</span></span><br><span class="line">    res = requests.get(downloadAddress)</span><br><span class="line">    stt = <span class="string">'D:/****/多邻国核心词汇/test/'</span>+ line +<span class="string">'.mp3'</span></span><br><span class="line">    <span class="keyword">with</span> open(stt, <span class="string">'ab'</span>) <span class="keyword">as</span> file: <span class="comment">#保存到本地的文件名</span></span><br><span class="line">        file.write(res.content)</span><br><span class="line">        file.flush()</span><br></pre></td></tr></table></figure>
+
+<p>然后我们就获得了一文件夹的mp3文件</p>
+<h2 id="导入音频-1"><a href="#导入音频-1" class="headerlink" title="导入音频"></a>导入音频</h2><p>上面那个博客的老哥和坑的一点在于，他没说清楚这些音频文件究竟应该放在哪里，搞得我又做实验，又找官方文档的，最后还是我拿Everything搜了一下，发现这个collection.media文件夹在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">把MP3文件先都放在这里，然后回到Anki对每张卡牌做一个简单的设置</span><br><span class="line"></span><br><span class="line">点击【浏览】，选择需要设置的词库，Ctrl+A，右键，选择【查找替换】</span><br><span class="line"></span><br><span class="line">![image-20200415160614830](3.png)</span><br><span class="line"></span><br><span class="line">![image-20200415160709138](4.png)</span><br><span class="line"></span><br><span class="line">这里需要我们用正则表达式来进行方便的替换了，原博主因为卡牌正面有音标，所以使用的是</span><br><span class="line"></span><br><span class="line">```(^([-a-zA-Z]+).*)</span><br></pre></td></tr></table></figure>
+
+<p>但是这个规则只能对一个单词起效，而我的卡牌正面除了所要发音的词汇没有别的，而且音频的文件名也直接使用的是正面的字段，所以我直接使用了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">之后在卡牌正面再加上sound标签和MP3的文件名，在替换栏写入：</span><br><span class="line"></span><br><span class="line">```\1[sound:\2.mp3]</span><br></pre></td></tr></table></figure>
+
+<p><strong>字段选择正面</strong></p>
+<p>勾选正则表达式输入</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/5.png" alt="image-20200415161744087"></p>
+<p>可以看到我们的词条全部替换成功了</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/6.png" alt="image-20200415161826277"></p>
+<p>之后再进入学习，我们就可以看到单词旁边出现了一个播放按钮，进入这张卡片或者点击这个按钮都会播放语音</p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/7.png" alt="image-20200415162527446"></p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/9.gif" alt></p>
+<h1 id="导入手机"><a href="#导入手机" class="headerlink" title="导入手机"></a>导入手机</h1><p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/10.png" alt="image-20200415162751632"></p>
+<p>导出为apkg文件<strong>一定要带媒体文件！！</strong></p>
+<p><img src="/2020/04/15/Anki-AnkiDroud-食用指南/11.png" alt="image-20200415162827190"></p>
+<p>之后用各种办法传到手机上，放到AnKiDroid文件夹中，在AnkiDroid中导入就可以了</p>
+<p><strong>祈福一定要能到手合格的英语成绩啊</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/" data-id="ck912w47x0000ioc8qhql9mnc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Anki/">Anki</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-MIPS指令与机器码互转" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/04/11/MIPS指令与机器码互转/" class="article-date">
@@ -102,7 +194,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/11/MIPS指令与机器码互转/" data-id="ck8vsqjjv00046gc8owqd4i1d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/11/MIPS指令与机器码互转/" data-id="ck912w48p000aioc8vqi64nq6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
@@ -214,7 +306,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ck8vsqjjs00036gc89t1l4rga" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ck912w48l0007ioc8q9harkbf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
@@ -258,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck8vsqjjw00056gc89iwieh7m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ck912w4a20022ioc8p9t0mlob" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWRT/">OpenWRT</a></li></ul>
@@ -303,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck8vsqjkg000z6gc8r3x58isl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ck912w49a000zioc87u2uidwm" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -346,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck8vsqjke000u6gc89imvvoks" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ck912w4a00020ioc88xcp6g0v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -384,7 +476,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck8vsqjjo00016gc839q14awm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ck912w48j0005ioc8pkovlcsf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -421,7 +513,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck8vsqjkj00156gc8tophna6m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/17/期末复习有感/" data-id="ck912w49d0014ioc81jirnk27" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生活/">生活</a></li></ul>
@@ -465,7 +557,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck8vsqjk6000f6gc8hd1rjm0d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ck912w498000vioc8s5r6a2pu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -508,55 +600,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck8vsqjk3000d6gc8gbl0whb6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/13/hello-world/" data-id="ck912w48z000iioc869hn47l0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/test/">test</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-QT如何使用lib与dll" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/12/11/QT如何使用lib与dll/" class="article-date">
-  <time datetime="2019-12-11T04:45:00.000Z" itemprop="datePublished">2019-12-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/11/QT如何使用lib与dll/">QT如何使用lib与dll</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>添加库文件：</p>
-<p> <a href="https://blog.csdn.net/fan_xingwang/article/details/92816323" target="_blank" rel="noopener">https://blog.csdn.net/fan_xingwang/article/details/92816323</a> </p>
-<p>改用绝对路径：</p>
-<p> <a href="https://www.cnblogs.com/luoxiang/p/4866705.html" target="_blank" rel="noopener">https://www.cnblogs.com/luoxiang/p/4866705.html</a> </p>
-<p>显示调用</p>
-<p> <a href="https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html" target="_blank" rel="noopener">https://www.cnblogs.com/hicjiajia/archive/2010/08/27/1810239.html</a> </p>
-<p>隐式调用把.h文件include进去就可以直接使用函数名了。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT如何使用lib与dll/" data-id="ck8vsqjk2000c6gc8gi9ly0bs" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
 
     </footer>
   </div>
@@ -583,7 +630,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenWRT/">OpenWRT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QT/">QT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Anki/">Anki</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenWRT/">OpenWRT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/QT/">QT</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/blog/">blog</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/test/">test</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习/">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生活/">生活</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
     </div>
   </div>
 
@@ -593,7 +640,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/OpenWRT/" style="font-size: 12.5px;">OpenWRT</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/汇编/" style="font-size: 12.5px;">汇编</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/计算机组成原理/" style="font-size: 12.5px;">计算机组成原理</a>
+      <a href="/tags/Anki/" style="font-size: 10px;">Anki</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/OpenWRT/" style="font-size: 12.5px;">OpenWRT</a> <a href="/tags/QT/" style="font-size: 15px;">QT</a> <a href="/tags/blog/" style="font-size: 17.5px;">blog</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/test/" style="font-size: 20px;">test</a> <a href="/tags/学习/" style="font-size: 10px;">学习</a> <a href="/tags/汇编/" style="font-size: 12.5px;">汇编</a> <a href="/tags/生活/" style="font-size: 17.5px;">生活</a> <a href="/tags/计算机组成原理/" style="font-size: 12.5px;">计算机组成原理</a>
     </div>
   </div>
 
@@ -615,6 +662,10 @@
       <ul>
         
           <li>
+            <a href="/2020/04/15/Anki-AnkiDroud-食用指南/">Anki(AnkiDroud)食用指南</a>
+          </li>
+        
+          <li>
             <a href="/2020/04/11/MIPS指令与机器码互转/">MIPS指令与机器码互转</a>
           </li>
         
@@ -628,10 +679,6 @@
         
           <li>
             <a href="/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/">在Ubuntu 16.04上使用LVM的快照、恢复、分区拓展等操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/">在Ubuntu 16.04配置命令行走SS且支持chacha20加密算法</a>
           </li>
         
       </ul>
