@@ -87,30 +87,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="6月30日工作"><a href="#6月30日工作" class="headerlink" title="6月30日工作"></a>6月30日工作</h1><h3 id="1-恢复右键菜单显示"><a href="#1-恢复右键菜单显示" class="headerlink" title="1. 恢复右键菜单显示"></a>1. 恢复右键菜单显示</h3><h4 id="1-1-解决报错"><a href="#1-1-解决报错" class="headerlink" title="1.1 解决报错"></a>1.1 解决报错</h4><p>在右键时发现如下报错</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200629231534316.png" alt="image-20200629231534316"></p>
-<p>经过定位发现错误源头在kityminder.core.js中</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200629231632657.png" alt="image-20200629231632657"></p>
-<p>原因是name不确定为字符串类型，不能使用jQuery中的toLowerCase方法转换为小写，所以通过类型转换解决。</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200629231846503.png" alt="image-20200629231846503"></p>
-<h4 id="1-2-恢复右键菜单显示"><a href="#1-2-恢复右键菜单显示" class="headerlink" title="1.2 恢复右键菜单显示"></a>1.2 恢复右键菜单显示</h4><p>解除kityminder.editor.js中的返回值屏蔽，恢复右键菜单显示</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200629232101269.png" alt="image-20200629232101269"></p>
-<p><img src="/2020/06/30/6月30日工作/image-20200629232156622.png" alt="image-20200629232156622"></p>
-<h3 id="2-调整布局"><a href="#2-调整布局" class="headerlink" title="2. 调整布局"></a>2. 调整布局</h3><h4 id="2-1-删除向上拓展和向下拓展以外的其他按钮"><a href="#2-1-删除向上拓展和向下拓展以外的其他按钮" class="headerlink" title="2.1 删除向上拓展和向下拓展以外的其他按钮"></a>2.1 删除向上拓展和向下拓展以外的其他按钮</h4><p><img src="/2020/06/30/6月30日工作/image-20200630111058577.png" alt="image-20200630111058577"></p>
-<p>效果:</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200630111121427.png" alt="image-20200630111121427"></p>
-<h4 id="2-2-调整圆环范围"><a href="#2-2-调整圆环范围" class="headerlink" title="2.2 调整圆环范围"></a>2.2 调整圆环范围</h4><p>最开始开始修改FPTool\static\assets\bower_components\hotbox\hotbox.css</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200630151357186.png" alt="image-20200630151357186"></p>
-<p>但是发现改完后效果并不理想，于是顺藤摸瓜尝试修改同目录下得hotbox.js</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200630152001028.png" alt="image-20200630152001028"></p>
-<p>直接修改生成按钮坐标的函数（核心参数为比例参数radius），达到效果</p>
-<p><img src="/2020/06/30/6月30日工作/image-20200630152148865.png" alt="image-20200630152148865"></p>
-<p>（保持所有原有参数不变似乎会导致label看起来有一些歪，但是因为课设检查马上要检查到我，答辩+考核可能会占用2-2.5小时，准备再考核结束后再对样式进行一些微调）</p>
-
+        <h1 id="6月30日工作"><a href="#6月30日工作" class="headerlink" title="6月30日工作"></a>6月30日工作</h1><h2 id="工作小结"><a href="#工作小结" class="headerlink" title="工作小结"></a>工作小结</h2><ul>
+<li>任务目标：实现右键节点后提供向上拼接及向下拼接两个按钮</li>
+<li>今日工作：恢复右键菜单、调整布局</li>
+</ul>
+        
+          <p class="article-more-link">
+            <a href="/2020/06/30/6月30日工作/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/30/6月30日工作/" data-id="ckc1m98ca0000nsc8q5a2yjbb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/06/30/6月30日工作/" data-id="ckc1mcvus0000pcc8mbbjwqiy" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/work/">work</a></li></ul>
@@ -155,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/" data-id="ckc1m98cx0007nsc8locxe89k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/15/Anki-AnkiDroud-食用指南/" data-id="ckc1mcvux0001pcc8jfofoioj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Anki/">Anki</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/学习/">学习</a></li></ul>
@@ -204,7 +193,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/11/MIPS指令与机器码互转/" data-id="ckc1m98cu0006nsc8f233gb7z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/11/MIPS指令与机器码互转/" data-id="ckc1mcvv8000bpcc8q4xn4r49" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
@@ -316,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ckc1m98d3000ensc84qq37b57" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/04/03/MIPS指令字典/" data-id="ckc1mcvv9000cpcc842qntzz9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/汇编/">汇编</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/计算机组成原理/">计算机组成原理</a></li></ul>
@@ -360,7 +349,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ckc1m98dr0014nsc8xqmiio89" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/25/OpenWRT的备份、还原/" data-id="ckc1mcvv30005pcc8cztcndtc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenWRT/">OpenWRT</a></li></ul>
@@ -405,7 +394,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ckc1m98di0012nsc8o26f1ccy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04上使用LVM的快照、恢复、分区拓展等操作/" data-id="ckc1mcvvm000ypcc8w73e65z3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -448,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ckc1m98dg000znsc8ybqyyrn3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/02/24/在Ubuntu-16-04配置命令行走SS且支持chacha20加密算法/" data-id="ckc1mcvvm000zpcc8rz2yiuvf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
@@ -486,7 +475,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ckc1m98ct0004nsc8h6fpyv3d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2020/01/13/CA与PKI学习笔记/" data-id="ckc1mcvv20004pcc8e94fmqpx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -528,7 +517,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ckc1m98de000vnsc8mhzhblwf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/15/python处理word文件/" data-id="ckc1mcvvb000gpcc8gl2x27x3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -574,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ckc1m98dc000qnsc8fn8z3a4y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/11/QT绘图/" data-id="ckc1mcvva000epcc8bm51o53t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/QT/">QT</a></li></ul>
